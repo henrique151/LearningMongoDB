@@ -1,16 +1,21 @@
-import express, {Request, Response} from "express";
+import express, { Request, Response } from "express";
 import connectToDatabase from "./db";
+import userRoutes from "./routes/user.routes";
 
-const application = express()
+const application = express();
 
-const PORT = 1337
+application.use(express.json());
 
-connectToDatabase()
+const PORT = 1337;
 
-application.get("/ping", (request:Request, response:Response)=> {
-    response.send("Pong")
-})
+connectToDatabase();
 
-application.listen(PORT, ()=>{
-    console.log("Server up and running")
-})
+application.get("/ping", (request: Request, response: Response) => {
+    response.send("Pong");
+});
+
+application.use("/user", userRoutes);
+
+application.listen(PORT, () => {
+    console.log("Server up and running");
+});
